@@ -134,9 +134,9 @@ var parser = parse({delimiter: ',', columns: true, auto_parse: true}, function(e
         };
         adpSorted.sort(adpSort);
     });
-    fs.createReadStream(__dirname + '/adp.csv').pipe(adpParser);
+    fs.createReadStream(__dirname + '/data/adp.csv').pipe(adpParser);
 });
-fs.createReadStream(__dirname + '/projections.csv').pipe(parser);
+fs.createReadStream(__dirname + '/data/projections.csv').pipe(parser);
 
 var bestAvailable = function bestAvailable(picks) {
     function ResultEntry(position, delta, string) {

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var playerData = require('../data/player-data');
+var playerData = require('../player-data');
 
 router.get('/', function(req, res) {
   res.render('players', {
