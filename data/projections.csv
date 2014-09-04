@@ -1,4 +1,5 @@
-id,last,first,pos,pos1,team,patt,pcmp,pyds,p300,ptds,pint,ratt,ryds,r100,rtds,rec,cyds,c100,ctds,fum,FGM,FGA,EPM,EPA,TD,FF,FR,INT,Sack,Saf,yds,pts,iInt,iPD,iTck,iAst,iSack,iFF,iFR,iTD,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,GP,age,exp,kryd,krtd,pryd,prtdAbbrJa01,Abbrederis,Jared,WR,,GB/9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,1,0,0,0,0
+id,last,first,pos,pos1,team,patt,pcmp,pyds,p300,ptds,pint,ratt,ryds,r100,rtds,rec,cyds,c100,ctds,fum,FGM,FGA,EPM,EPA,TD,FF,FR,INT,Sack,Saf,yds,pts,iInt,iPD,iTck,iAst,iSack,iFF,iFR,iTD,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,GP,age,exp,kryd,krtd,pryd,prtd
+AbbrJa01,Abbrederis,Jared,WR,,GB/9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,1,0,0,0,0
 AdamDa01,Adams,Davante,WR,,GB/9,0,0,0,0,0,0,0,0,0,0,28,356,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,22,1,0,0,0,0
 AjirSe00,Ajirotutu,Seyi,WR,,SD/10,0,0,0,0,0,0,0,0,0,0,8,108,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,27,4,0,0,0,0
 AlexDa00,Alexander,Danario,WR,,SD/10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,5,0,0,0,0
