@@ -1,0 +1,141 @@
+extends layout
+
+block content
+    h1="Best Available Players"
+    table(border=1, cellpadding=5)
+        each item in players
+            tr
+                td #{item.position}
+                td #{item.string}
+                td #{item.delta}
+
+    br
+    hr
+    h1="Remove Player"
+    form(method="post")
+        input(id="drafted", type="text", name="drafted")
+        input(type="submit", value="Draft")
+
+    br
+    hr
+    table(cellpadding=10)
+        tr(valign="top")
+            td
+                h1="Remaining Players"
+                table(border=1, cellpadding=5)
+                    thead
+                        td pos
+                        td name
+                        td adp
+                        td total
+                        td draft
+                    each item in allPlayers
+                        tr
+                            td #{item.pos}
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+                            <td style="color:red;" onclick='return draftPlayer("#{item.name}");'>draft</td>
+            td
+                h1="Remaining QBs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allQB
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining RBs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allRB
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining WRs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allWR
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining TEs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allTE
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining FLEX RB/WRs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allFLEXRW
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining FLEX WR/TEs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allFLEXWT
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining DSTs"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allDST
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+            td
+                h1="Remaining Ks"
+                table(border=1, cellpadding=5)
+                    thead
+                        td name
+                        td adp
+                        td total
+                    each item in allK
+                        tr
+                            td #{item.name}
+                            td #{item.adp}
+                            td #{item.total}
+
+    script.
+        function draftPlayer(name) {
+            document.getElementById('drafted').value=name;
+            document.forms[0].submit();
+            return false;
+        };
