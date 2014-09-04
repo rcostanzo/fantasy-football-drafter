@@ -10,3 +10,9 @@ Then when it comes back to your turn, you'd enter a "14" as that's the number of
 You can see based on the best available and ADP (average draft position) which position you should select to minimize the overall point drop-off delta.
 
 Just click the "draft" link next to the players as they come off the board!
+
+
+Running
+========================
+
+node bin/www
