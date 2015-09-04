@@ -12,8 +12,7 @@ router.get('/', function(req, res) {
       allTE: playerData.allByPosition('TE'),
       allFLEXRW: playerData.allByPosition('FLEXRW'),
       allFLEXWT: playerData.allByPosition('FLEXWT'),
-      allDST: playerData.allByPosition('DEF'),
-      allK: playerData.allByPosition('PK')
+      allK: playerData.allByPosition('K')
   });
 });
 
@@ -28,8 +27,7 @@ router.post('/', function(req, res) {
         allTE: playerData.allByPosition('TE'),
         allFLEXRW: playerData.allByPosition('FLEXRW'),
         allFLEXWT: playerData.allByPosition('FLEXWT'),
-        allDST: playerData.allByPosition('DEF'),
-        allK: playerData.allByPosition('PK')
+        allK: playerData.allByPosition('K')
     });
 });
 

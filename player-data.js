@@ -13,6 +13,7 @@ var fs = require('fs');
 
 var results = [];
 var adpSorted = [];
+var lock = 1;
 function Result(pos, name, team, total) {
     this.pos = pos;
     this.name = name;
@@ -27,10 +28,6 @@ Result.prototype.setTotal = function setTotal(total) {
     this.total = total.toFixed(2);
 };
 
-var getFullName = function(firstName, lastName) {
-    return firstName + ' ' + lastName;
-};
-
 var totalSort = function(a, b){
     return b.total - a.total;
 };
@@ -39,51 +36,43 @@ var adpSort = function(a, b){
     return a.adp - b.adp;
 };
 
-var parser = parse({delimiter: ',', columns: true, auto_parse: true}, function(err, data) {
-    data = data.filter(function (item) {
-        var pos = item['pos'];
-        return pos === 'QB'
-            || pos === 'RB'
-            || pos === 'WR'
-            || pos === 'TE'
-            || pos === 'DEF'
-            || pos === 'PK';
-    });
-
+function getParser() {
+return parse({delimiter: '\t', columns: true, auto_parse: true}, function(err, data) {
     for (var i in data) {
         var item = data[i];
 
         var pos = item['pos'];
         var total;
-        if (pos === 'DEF') {
+        if (pos === 'K') {
             total =
-                (item['TD'] * 6)
-                + (item['FR'] * 2)
-                + (item['INT'] * 2)
-                + (item['Sack'] * 1)
-                + (item['Saf'] * 2)
-                + ((19.5 - (item['pts'] / 16)) * 6);
-        } else if (pos === 'PK') {
+                (item['fg'] * 3)
+                + ((item['fga'] - item['fg']) * -1)
+                + (item['xpt'] * 1);
+        } else if (pos === 'QB') {
             total =
-                (item['FGM'] * 3)
-                + ((item['FGA'] - item['FGM']) * -1)
-                + (item['EPM'] * 1)
-                + ((item['EPA'] - item['EPM']) * -1);
-        } else {
+                (item['pass_yds'] / 25)
+                + (item['pass_tds'] * 6)
+                + (item['pass_ints'] * -2)
+                + (item['rush_yds'] / 10)
+                + (item['rush_tds'] * 6);
+        } else if (pos === 'RB' || pos === 'WR') {
             total =
-                (item['pyds'] / 25)
-                + (item['ptds'] * 6)
-                + (item['pint'] * -2)
-                + (item['ryds'] / 10)
-                + (item['rtds'] * 6)
-                + (item['rec'] * .5)
-                + (item['cyds'] / 10)
-                + (item['ctds'] * 6)
-                + (item['fum'] * -2);
+                (item['rush_yds'] / 10)
+                + (item['rush_tds'] * 6)
+                + (item['rec_att'] * .5)
+                + (item['rec_yds'] / 10)
+                + (item['rec_tds'] * 6)
+                + (item['fumbles'] * -2);
+        } else if (pos === 'TE') {
+            total =
+                (item['rec_att'] * .5)
+                + (item['rec_yds'] / 10)
+                + (item['rec_tds'] * 6)
+                + (item['fumbles'] * -2);
         }
         results[pos] = results[pos] || [];
 
-        var result = new Result(pos, getFullName(item['first'], item['last']), item['team'], total);
+        var result = new Result(pos, item['name'], item['team'], total);
         results[pos].push(result);
         if (pos == 'RB' || pos == 'WR') {
             results['FLEXRW'] = results['FLEXRW'] || [];
@@ -95,25 +84,13 @@ var parser = parse({delimiter: ',', columns: true, auto_parse: true}, function(e
         }
     };
 
-    for (var i in data) {
-        var item = data[i];
-
-        var tds = item['prtd'] + item['krtd'];
-        if (tds > 0) {
-            var team = item['team'];
-            for (var i in results['DEF']) {
-                if (results['DEF'][i].team === team) {
-                    results['DEF'][i].setTotal(parseFloat(results['DEF'][i].total) + (tds * 6));
-                }
-            }
-        }
-    };
-
     for (var pos in results) {
         results[pos].sort(totalSort);
     };
 
-    var adpParser = parse({delimiter: ',', columns: true, auto_parse: true}, function(err, data) {
+    var adpParser = parse({delimiter: '\t', columns: true, auto_parse: true}, function(err, data) {
+        if (lock == 1) {
+            lock++;
         var setAdpForPlayer = function(player, adp) {
             for (var pos in results) {
                 for (var i in results[pos]) {
@@ -128,15 +105,24 @@ var parser = parse({delimiter: ',', columns: true, auto_parse: true}, function(e
         for (var i in data) {
             var item = data[i];
 
-            var player = getFullName(item['fname'], item['lname']);
-            var adp = item['adp_consensus_ppr'] || 1000;
+            var player = item['name'];
+            var adp = item['adp'] || 1000;
             adpSorted.push(setAdpForPlayer(player, adp));
         };
         adpSorted.sort(adpSort);
+        }
     });
     fs.createReadStream(__dirname + '/data/adp.csv').pipe(adpParser);
 });
-fs.createReadStream(__dirname + '/data/projections.csv').pipe(parser);
+}
+
+
+fs.createReadStream(__dirname + '/data/qb.csv').pipe(getParser());
+fs.createReadStream(__dirname + '/data/rb.csv').pipe(getParser());
+fs.createReadStream(__dirname + '/data/wr.csv').pipe(getParser());
+fs.createReadStream(__dirname + '/data/te.csv').pipe(getParser());
+fs.createReadStream(__dirname + '/data/k.csv').pipe(getParser());
+
 
 var bestAvailable = function bestAvailable(picks) {
     function ResultEntry(position, delta, string) {
